@@ -51,7 +51,7 @@ const onSubmit = ( values: z.infer<typeof loginSchema>) => {
             <FormField name='password' control={form.control} render={({field}) => (<FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder='*********' {...field}/>
+                <Input placeholder='*********' {...field} type='password'/>
               </FormControl>
               <FormMessage/>
             </FormItem>)}/>

@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { register } from "@/server/actions/register-action"
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"
 
 const Register = () => {
   const form = useForm({
@@ -24,7 +25,17 @@ const Register = () => {
     }
   });
 
-  const {execute, status, result} = useAction(register)
+  const {execute, status, result} = useAction(register, {
+    onSuccess({data}) {
+      form.reset();
+      toast.success(data?.succes, {
+        action :{
+          label : "Open Gmail",
+          onClick : () => {window.open("https://mail.google.com", "_blank")}
+        }
+      });
+    }
+  })
 
 const onSubmit = ( values : z.infer<typeof registerSchema>) => {
   const {name, email, password} = values
@@ -59,7 +70,7 @@ const onSubmit = ( values : z.infer<typeof registerSchema>) => {
             <FormField name='password' control={form.control} render={({field}) => (<FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder='*********' {...field}/>
+                <Input placeholder='*********' {...field} type="password"/>
               </FormControl>
               <FormMessage/>
             </FormItem>)}/>
